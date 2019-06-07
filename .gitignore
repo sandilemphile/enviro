@@ -1,0 +1,10 @@
+/enviro-ui/dist
+/enviro-ui/tmp
+
+/enviro-ui/node_modules
+/enviro-ui/e2e/*.js
+/enviro-ui/e2e/*.map
+
+*/.idea
+
+/enviro-api/target

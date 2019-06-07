@@ -1,0 +1,58 @@
+.enviro-container {
+  width: 600px;
+  margin: auto auto;
+  padding-top: 20vh;
+  height: 75vh;
+}
+
+.enviro-form {
+  width: 450px;
+  margin: auto auto;
+}
+
+.enviro-full-width {
+  width: 100%;
+}
+
+.enviro-mb-1em {
+  margin-bottom: 1em;
+}
+
+.enviro-gender-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.enviro-radio-group-label {
+  display: flex;
+  flex-basis: 20%;
+  font-weight: bold;
+}
+
+.enviro-radio-group-error {
+  display: flex;
+  flex-basis: 35%;
+  color: red;
+}
+
+.enviro-radio-group {
+  display: flex;
+  flex-basis: 45%;
+  flex-direction: row;
+}
+
+.enviro-radio-button {
+  margin: 0 5px;
+}
+
+.enviro--button-container {
+  width: 100%;
+  text-align: left;
+}
+
+.enviro-button {
+  margin-top: 10px;
+  min-height: 40px;
+  min-width: 120px;
+}

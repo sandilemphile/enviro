@@ -1,0 +1,72 @@
+<div class="enviro-container">
+  <form [formGroup]="registrationFormGroup" class="enviro-form">
+    <mat-form-field class="enviro-full-width enviro-mb-1em">
+      <input formControlName="fullName" matInput placeholder="Full Name" type="text"/>
+      <mat-error>Full Name is <strong>required</strong></mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="enviro-full-width enviro-mb-1em">
+      <input formControlName="email" matInput placeholder="E-Mail" type="email">
+      <mat-error *ngIf="registrationFormGroup.get('email').hasError('pattern')
+      && !registrationFormGroup.get('email').hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="registrationFormGroup.get('email').hasError('required')">
+        E-mail is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-button-toggle-group #optionGroup="matButtonToggleGroup" class="enviro-mb-1em">
+      <mat-button-toggle value="age">Age</mat-button-toggle>
+      <mat-button-toggle value="id">ID Number</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <div *ngIf="optionGroup.value === 'id'; then idInputSecttion else ageInputSection"></div>
+
+    <ng-template #idInputSecttion>
+      <mat-form-field class="enviro-full-width enviro-mb-1em">
+        <input formControlName="idNumber" (input)="onIdNumberChange($event.target.value)"
+               matInput placeholder="ID Number" type="number"/>
+        <mat-error *ngIf="registrationFormGroup.get('idNumber').hasError('idNumber')
+        && !registrationFormGroup.get('idNumber').hasError('required')">
+          Please enter a valid ID Number
+        </mat-error>
+        <mat-error *ngIf="registrationFormGroup.get('idNumber').hasError('required')">
+          ID Number is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="enviro-full-width enviro-mb-1em"
+                      *ngIf="optionGroup.value === 'id'
+                      && !registrationFormGroup.get('idNumber').errors">
+        <input formControlName="age" matInput placeholder="Age" type="number"/>
+      </mat-form-field>
+    </ng-template>
+
+    <ng-template #ageInputSection>
+      <mat-form-field class="enviro-full-width enviro-mb-1em">
+        <input formControlName="age" matInput placeholder="Age" type="number"/>
+        <mat-error>Age is <strong>required</strong></mat-error>
+      </mat-form-field>
+    </ng-template>
+
+    <div class="enviro-gender-container">
+      <label id="gender-radio-group-label" class="enviro-radio-group-label">Gender:</label>
+      <mat-radio-group class="enviro-radio-group" formControlName="gender">
+        <mat-radio-button class="enviro-radio-button" value="MALE">Male</mat-radio-button>
+        <mat-radio-button class="enviro-radio-button" value="FEMALE">Female</mat-radio-button>
+      </mat-radio-group>
+      <div class="enviro-radio-group-error"
+           *ngIf="registrationFormGroup.get('gender').hasError('required')
+           && registrationFormGroup.get('gender').touched">
+        <span>Gender is <strong>required</strong></span>
+      </div>
+    </div>
+
+    <div class="enviro--button-container">
+      <button mat-raised-button color="primary" (click)="registerUser()"
+              class="enviro-button">
+        Register
+      </button>
+    </div>
+  </form>
+</div>
