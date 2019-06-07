@@ -1,3 +1,3 @@
 #!/bin/bash  
 echo "Starting UI ...."  
-cd enviro-ui; npm start &
+cd enviro-ui; npm i; npm start &
