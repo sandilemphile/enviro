@@ -6,7 +6,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import za.co.enviro.enviroapi.accesscontrol.control.exceptions.SystemException;
+import za.co.enviro.enviroapi.notification.control.config.EmailNotificationRepository;
+import za.co.enviro.enviroapi.notification.entity.EmailNotificationEntity;
 import za.co.enviro.enviroapi.notification.entity.EmailTemplateEntity;
+import za.co.enviro.enviroapi.notification.entity.datatype.Status;
 import za.co.enviro.enviroapi.usermanagement.entity.UserEntity;
 
 import javax.mail.MessagingException;
@@ -18,11 +21,14 @@ import java.util.Optional;
 public class NotificationBa {
 
     private EmailTemplateRepository emailTemplateRepository;
+    private EmailNotificationRepository emailNotificationRepository;
     private JavaMailSender javaMailSender;
 
     @Autowired
     public NotificationBa(EmailTemplateRepository emailTemplateRepository,
+                          EmailNotificationRepository emailNotificationRepository,
                           JavaMailSender javaMailSender) {
+        this.emailNotificationRepository = emailNotificationRepository;
         this.emailTemplateRepository = emailTemplateRepository;
         this.javaMailSender = javaMailSender;
     }
@@ -39,6 +45,9 @@ public class NotificationBa {
         }
 
         emailTemplateEntity.ifPresent(t -> {
+            EmailNotificationEntity emailNotificationEntity = new EmailNotificationEntity();
+            emailNotificationEntity.setSentTo(userEntity);
+            emailNotificationEntity.setEmail(t);
             try {
                 log.info("Sending email.....");
                 MimeMessage message = javaMailSender.createMimeMessage();
@@ -48,7 +57,11 @@ public class NotificationBa {
                 helper.setSubject("Welcome - Enviro 365");
                 helper.setText(t.getContent(), true);
                 javaMailSender.send(message);
+                emailNotificationEntity.setStatus(Status.SENT);
+                emailNotificationRepository.save(emailNotificationEntity);
             } catch (MessagingException e) {
+                emailNotificationEntity.setStatus(Status.FAILED);
+                emailNotificationRepository.save(emailNotificationEntity);
                 e.printStackTrace();
                 throw new SystemException("Could not send email");
             }

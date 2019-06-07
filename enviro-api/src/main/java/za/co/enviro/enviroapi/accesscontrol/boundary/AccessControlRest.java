@@ -1,5 +1,6 @@
 package za.co.enviro.enviroapi.accesscontrol.boundary;
 
+import io.swagger.annotations.ApiOperation;
 import org.dozer.DozerBeanMapperBuilder;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class AccessControlRest {
         this.accessControlBci = accessControlBci;
     }
 
+    @ApiOperation(value = "Register a new user", response = UserDto.class)
     @PermitAll
     @PostMapping(path = "/sign-up",
             consumes = MediaType.APPLICATION_JSON_VALUE,

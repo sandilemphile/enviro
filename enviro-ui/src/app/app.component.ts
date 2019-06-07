@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   registeredUser: UserTo;
   registrationFormGroup: FormGroup;
   @ViewChild('optionGroup') optionGroup;
+  isLoading = false;
 
   constructor(private formBuilder: FormBuilder,
               private snackBar: MatSnackBar,
@@ -55,6 +56,7 @@ export class AppComponent implements OnInit {
   }
 
   public registerUser(): void {
+    this.isLoading = true;
     if (this.optionGroup.value === 'age') {
       this.registrationFormGroup.get('idNumber').setErrors(null);
     }
@@ -69,11 +71,12 @@ export class AppComponent implements OnInit {
 
       this.accessControlService.registerUser(user).subscribe((data) => {
         this.registeredUser = data;
+        this.isLoading = false;
         this.snackBar.open('Successfully registered...!!!', 'CLOSE', {
           duration: 4000,
         });
       }, (error: HttpErrorResponse) => {
-        console.log(error);
+        this.isLoading = false;
         this.snackBar.open(error.error.message, 'CLOSE', {
           duration: 4000,
         });

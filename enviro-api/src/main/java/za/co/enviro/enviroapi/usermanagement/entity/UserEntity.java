@@ -1,10 +1,9 @@
 package za.co.enviro.enviroapi.usermanagement.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import za.co.enviro.enviroapi.accesscontrol.entity.BaseAuditEntity;
+import za.co.enviro.enviroapi.usermanagement.entity.datatype.Gender;
 
 import javax.persistence.*;
 
@@ -26,6 +25,7 @@ public class UserEntity extends BaseAuditEntity {
     private String idNumber;
 
     @Column(name = "gender")
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
 }

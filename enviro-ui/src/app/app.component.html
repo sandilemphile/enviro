@@ -63,10 +63,16 @@
     </div>
 
     <div class="enviro--button-container">
-      <button mat-raised-button color="primary" (click)="registerUser()"
-              class="enviro-button">
-        Register
-      </button>
+      <div *ngIf="isLoading; then progressBar else submitButton"></div>
+      <ng-template #progressBar>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </ng-template>
+      <ng-template #submitButton>
+        <button mat-raised-button color="primary" (click)="registerUser()"
+                class="enviro-button">
+          Register
+        </button>
+      </ng-template>
     </div>
   </form>
 </div>
